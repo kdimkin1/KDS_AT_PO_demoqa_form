@@ -7,10 +7,16 @@
 
 See details:  
 ```bash
-cloud/autotests/tests/AutomationPracticeFormFillTests.java
+cloud/autotests/tests/
+AutomationPracticeFormFillTestsWithPOAndVars.java
+AutomationPracticeFormFillTestsWithPOAndTestData.java
 ```
 ## UI Tests (with PageObject)
-* apfSuccessFillTest        --  AutomationPracticeFormFillTests(Success)
-* apfUnsuccessFillTest      --  AutomationPracticeFormFillTests(Unsuccess)
+AutomationPracticeFormFillTestsWithPOAndVars -- variables, PageObjects and components
+AutomationPracticeFormFillTestsWithPOAndTestData -- move TestData to standalone class
+AutomationPracticeFormFillTestsWithPOAndRandomVars -- use RandomUtils for some vars
+--use JavaFaker for some TestData
+
+
 
 
