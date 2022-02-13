@@ -28,26 +28,4 @@ public class TestBase {
 
         Selenide.closeWebDriver();
     }
-
-//    @BeforeAll
-//    static void setUp() {
-//        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
-//        DriverSettings.configure();
-//    }
-//
-//    @AfterEach
-//    public void addAttachments() {
-//        String sessionId = DriverUtils.getSessionId();
-//
-//        AllureAttachments.addScreenshotAs("Last screenshot");
-//        AllureAttachments.addPageSource();
-////        AllureAttachments.attachNetwork(); // todo
-//        AllureAttachments.addBrowserConsoleLogs();
-//
-//        Selenide.closeWebDriver();
-//
-//        if (Project.isVideoOn()) {
-//            AllureAttachments.addVideo(sessionId);
-//        }
-//    }
 }

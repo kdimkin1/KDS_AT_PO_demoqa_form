@@ -1,6 +1,7 @@
 package cloud.autotests.tests;
 
 import cloud.autotests.helpers.DriverUtils;
+import cloud.autotests.pages.RegistrationPage;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Description;
@@ -39,6 +40,7 @@ public class AutomationPracticeFormFillTests extends TestBase {
     Integer dateOfBirthDay = 19;
     File fileWithPicture = new File("src/test/resources/AntonG.jpg");
 
+    RegistrationPage registrationPage = new RegistrationPage();
 
 
     @Test
@@ -46,234 +48,75 @@ public class AutomationPracticeFormFillTests extends TestBase {
     @DisplayName("AutomationPracticeFormFillTests(demoqa.com).")
     void apfSuccessFillTest() {
         step("Открыть https://demoqa.com/automation-practice-form", () -> {
-
-            open("/automation-practice-form");
-            $(".main-header").shouldHave(text("Practice Form"));
-
+            registrationPage.openPage();
         });
 
         step("Заполнить поле First Name(Anton)", () -> {
-            $("#firstName").setValue(firstName);
+            registrationPage.setFirstName(firstName);
         });
 
         step("Заполнить поле Last Name (Gorodetskiy)", () -> {
-            $("#lastName").setValue(lastName);
+            //$("#lastName").setValue(lastName);
+            registrationPage.setLastName(lastName);
         });
 
         step("Заполнить поле Email (Anton.Gorodetskiy@mail.com)", () -> {
-            $("#userEmail").setValue(userEmail);
+            registrationPage.setUserEmail(userEmail);
         });
 
         step("Заполнить поле Gender (Male)", () -> {
-            $(byText(gender)).click();
+            registrationPage.setFieldWText(gender);
         });
 
         step("Заполнить поле Mobile (9296112233)", () -> {
-            $("#userNumber").setValue(userNumber);
+            registrationPage.setUserNumber(userNumber);
         });
 
         step("Заполнить поле Date of Birth (19 Aug 1982)", () -> {
-            $("#dateOfBirthInput").click();
-            $(".react-datepicker__year-select").selectOption(dateOfBirthYear);
-            $(".react-datepicker__month-select").selectOption(dateOfBirthMonth);
-            $(".react-datepicker__day--019").click();
+            registrationPage.setDateofBirth(dateOfBirthYear,dateOfBirthMonth,dateOfBirthDay);
         });
 
         step("Заполнить поле Subject (Social Studies, Accounting)", () -> {
-            $("div.subjects-auto-complete__value-container.subjects-auto-complete__value-container--is-multi.css-1hwfws3").click();
-            $("#subjectsInput").setValue(subjectsInputFirst).pressEnter();
-            $("#subjectsInput").setValue(subjectsInputSecond).pressEnter();
+            registrationPage.setSubjects(subjectsInputFirst, subjectsInputSecond);
         });
 
         step("Заполнить чекбокс Hobbies (Sports, Music)", () -> {
-            $(byText(hobbiesFirst)).click();
-            $(byText(hobbiesSecond)).click();
+            registrationPage.setFieldWText(hobbiesFirst);
+            registrationPage.setFieldWText(hobbiesSecond);
         });
 
         step("Добавить картинку Picture (AntonG.jpg)", () -> {
-
-            //#uploadPicture
-            $("#uploadPicture").uploadFile(fileWithPicture);
+            registrationPage.setUploadPicture(fileWithPicture);
         });
 
         step("Заполнить поле Current Address (Karnal Bus Stand)", () -> {
-            $("#currentAddress").setValue(currentAddress);
+            registrationPage.setCurrentAddress(currentAddress);
         });
 
         step("Заполнить поле State(Haryana)", () -> {
             // скрыть блок рекламы, если есть
-            if ($("#close-fixedban > img").exists() == true) {
-                $("#close-fixedban > img").click();
-            }
-            //#state > div > div.css-1wy0on6 > div > svg
-            $("#state").click();
-            $(byText(state)).click();
+            registrationPage.adClose();
+            registrationPage.setState(state);
         });
 
         step("Заполнить поле City (Karnal)", () -> {
-            //#city > div > div.css-1wy0on6 > div > svg
-            $("#city").click();
-            $(byText(city)).click();
+            registrationPage.setCity(city);
         });
 
         step("Отправить форму (Submit)", () -> {
-            $("#submit").click();
+            registrationPage.setSubmit();
         });
 
         step("Проверить успешную отправку (содержание формы ответа).", () -> {
-            step("// todo: just add selenium action");
-            //body > div.fade.modal.show > div > div > div.modal-header
-            $(".modal-header").shouldHave(text("Thanks for submitting the form"));
-            //body > div.fade.modal.show > div > div > div.modal-body > div > table > tbody
-            $(".table").shouldHave(
-                    text(firstName +" "+ lastName),
-                    text(userEmail),
-                    text(gender),
-                    text(userNumber),
-                    text(dateOfBirthDay + " "+ dateOfBirthMonth +"," + dateOfBirthYear),
-                    text(subjectsInputFirst + ", " + subjectsInputSecond),
-                    text(hobbiesFirst + ", " + hobbiesSecond),
-                    text(fileWithPictureName),
-                    text(currentAddress),
-                    text(state + " " + city));
+            registrationPage.checkForm(firstName, lastName, userEmail,gender,userNumber,dateOfBirthDay,
+                    dateOfBirthMonth,dateOfBirthYear,subjectsInputFirst,subjectsInputSecond,hobbiesFirst,
+                    hobbiesSecond,fileWithPictureName,currentAddress,state,city);
         });
         step("Закрыть форму (Close)", () -> {
-            // #closeLargeModal
-            $("#closeLargeModal").click();
+            registrationPage.setClose();
         });
 
 
     }
 
-    @Test
-    @Description("AutomationPracticeFormFillTests(Unsuccess)")
-    @DisplayName("Unsuccess_AutomationPracticeFormFillTests(demoqa.com).")
-    void apfUnsuccessFillTest() {
-        step("Открыть https://demoqa.com/automation-practice-form", () -> {
-
-            open("/automation-practice-form");
-            $(".main-header").shouldHave(text("Practice Form"));
-
-        });
-
-        step("Заполнить поле First Name(Anton)", () -> {
-            $("#firstName").setValue("Anton");
-        });
-
-        step("Заполнить поле Last Name (Gorodetskiy)", () -> {
-            $("#lastName").setValue("Gorodetskiy");
-        });
-
-        step("Заполнить поле Email (Anton.Gorodetskiy@mail.com)", () -> {
-            $("#userEmail").setValue("Anton.Gorodetskiy@mail.com");
-        });
-
-        step("Заполнить поле Gender (Male)", () -> {
-            $(byText("Male")).click();
-        });
-
-        step("Заполнить поле Mobile (9296112233)", () -> {
-            $("#userNumber").setValue("9296112233");
-        });
-
-        step("Заполнить поле Date of Birth (19 Aug 1982)", () -> {
-            $("#dateOfBirthInput").click();
-            $(".react-datepicker__year-select").selectOption("1982");
-            $(".react-datepicker__month-select").selectOption("August");
-            $(".react-datepicker__day--019").click();
-        });
-
-        step("Заполнить поле Subject (Social Studies, Accounting)", () -> {
-            $("div.subjects-auto-complete__value-container.subjects-auto-complete__value-container--is-multi.css-1hwfws3").click();
-            $("#subjectsInput").setValue("Social Studies").pressEnter();
-            $("#subjectsInput").setValue("Accounting").pressEnter();
-        });
-
-        step("Заполнить чекбокс Hobbies (Sports, Music)", () -> {
-            $(byText("Sports")).click();
-            $(byText("Music")).click();
-        });
-
-        step("Добавить картинку Picture (AntonG.jpg)", () -> {
-            File file = new File("src/test/resources/AntonG.jpg");
-            //#uploadPicture
-            $("#uploadPicture").uploadFile(file);
-        });
-
-        step("Заполнить поле Current Address (Karnal Bus Stand)", () -> {
-            $("#currentAddress").setValue("Karnal Bus Stand");
-        });
-
-        step("Заполнить поле State(Haryana)", () -> {
-            // скрыть блок рекламы, если есть
-            if ($("#close-fixedban > img").exists() == true) {
-                $("#close-fixedban > img").click();
-            }
-            //#state > div > div.css-1wy0on6 > div > svg
-            $("#state").click();
-            $(byText("Haryana")).click();
-        });
-
-        step("Заполнить поле City (Karnal)", () -> {
-            //#city > div > div.css-1wy0on6 > div > svg
-            $("#city").click();
-            $(byText("Karnal")).click();
-        });
-
-        step("Отправить форму (Submit)", () -> {
-            $("#submit").click();
-        });
-        step("Проверить успешную отправку (содержание формы ответа).", () -> {
-            //body > div.fade.modal.show > div > div > div.modal-header
-            $(".modal-header").shouldHave(text("Thanks for submitting the form"));
-            //body > div.fade.modal.show > div > div > div.modal-body > div > table > tbody
-            $(".table").shouldHave(
-                    text("Fedor Gorodetskiy"),
-                    text("Anton.Gorodetskiy@mail.com"),
-                    text("Male"),
-                    text("9296112233"),
-                    text("19 August,1982"),
-                    text("Social Studies, Accounting"),
-                    text("Sports, Music"),
-                    text("AntonG.jpg"),
-                    text("Karnal Bus Stand"),
-                    text("Haryana Karnal"));
-        });
-        step("Закрыть форму (Close)", () -> {
-            // #closeLargeModal
-            $("#closeLargeModal").click();
-        });
-
-
-    }
-
-
-    @Test
-    @Description("Page title should have header text")
-    @DisplayName("Page title should have header text")
-    void titleTest() {
-        step("Open url 'https://demoqa.com/automation-practice-form'", () ->
-                open("/automation-practice-form"));
-        step("Page title should have text 'ToolsQA'", () -> {
-            String expectedTitle = "ToolsQA";
-            String actualTitle = title();
-
-            assertThat(actualTitle).isEqualTo(expectedTitle);
-        });
-    }
-
-    @Test
-    @Description("Page console log should not have errors")
-    @DisplayName("Page console log should not have errors")
-    void consoleShouldNotHaveErrorsTest() {
-        step("Open url 'https://demoqa.com/automation-practice-form'", () ->
-                open("/automation-practice-form"));
-
-        step("Console logs should not contain text 'SEVERE'", () -> {
-            String consoleLogs = DriverUtils.getConsoleLogs();
-            String errorText = "SEVERE";
-
-            assertThat(consoleLogs).doesNotContain(errorText);
-        });
-    }
 }
