@@ -18,18 +18,27 @@ import static io.qameta.allure.Allure.step;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class AutomationPracticeFormFillTests {
+public class AutomationPracticeFormFillTests extends TestBase {
 
-    @BeforeAll
-    static void beforeAll() {
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1920x1080";
-    }
+    //Test data variables
+    String firstName = "Anton",
+           lastName = "Gorodetskiy",
+           userEmail = "Anton.Gorodetskiy@mail.com",
+            gender = "Male",
+            userNumber = "9296112233",
+            dateOfBirthYear = "1982",
+            dateOfBirthMonth = "August",
+            subjectsInputFirst = "Social Studies",
+            subjectsInputSecond = "Accounting",
+            hobbiesFirst = "Sports",
+            hobbiesSecond = "Music",
+            fileWithPictureName = "AntonG.jpg",
+            currentAddress = "Karnal Bus Stand",
+            state = "Haryana",
+            city = "Karnal";
+    Integer dateOfBirthDay = 19;
+    File fileWithPicture = new File("src/test/resources/AntonG.jpg");
 
-    @AfterEach
-    public void afterEach() {
-        Selenide.closeWebDriver();
-    }
 
 
     @Test
@@ -44,51 +53,51 @@ public class AutomationPracticeFormFillTests {
         });
 
         step("Заполнить поле First Name(Anton)", () -> {
-            $("#firstName").setValue("Anton");
+            $("#firstName").setValue(firstName);
         });
 
         step("Заполнить поле Last Name (Gorodetskiy)", () -> {
-            $("#lastName").setValue("Gorodetskiy");
+            $("#lastName").setValue(lastName);
         });
 
         step("Заполнить поле Email (Anton.Gorodetskiy@mail.com)", () -> {
-            $("#userEmail").setValue("Anton.Gorodetskiy@mail.com");
+            $("#userEmail").setValue(userEmail);
         });
 
         step("Заполнить поле Gender (Male)", () -> {
-            $(byText("Male")).click();
+            $(byText(gender)).click();
         });
 
         step("Заполнить поле Mobile (9296112233)", () -> {
-            $("#userNumber").setValue("9296112233");
+            $("#userNumber").setValue(userNumber);
         });
 
         step("Заполнить поле Date of Birth (19 Aug 1982)", () -> {
             $("#dateOfBirthInput").click();
-            $(".react-datepicker__year-select").selectOption("1982");
-            $(".react-datepicker__month-select").selectOption("August");
+            $(".react-datepicker__year-select").selectOption(dateOfBirthYear);
+            $(".react-datepicker__month-select").selectOption(dateOfBirthMonth);
             $(".react-datepicker__day--019").click();
         });
 
         step("Заполнить поле Subject (Social Studies, Accounting)", () -> {
             $("div.subjects-auto-complete__value-container.subjects-auto-complete__value-container--is-multi.css-1hwfws3").click();
-            $("#subjectsInput").setValue("Social Studies").pressEnter();
-            $("#subjectsInput").setValue("Accounting").pressEnter();
+            $("#subjectsInput").setValue(subjectsInputFirst).pressEnter();
+            $("#subjectsInput").setValue(subjectsInputSecond).pressEnter();
         });
 
         step("Заполнить чекбокс Hobbies (Sports, Music)", () -> {
-            $(byText("Sports")).click();
-            $(byText("Music")).click();
+            $(byText(hobbiesFirst)).click();
+            $(byText(hobbiesSecond)).click();
         });
 
         step("Добавить картинку Picture (AntonG.jpg)", () -> {
-            File file = new File("src/test/resources/AntonG.jpg");
+
             //#uploadPicture
-            $("#uploadPicture").uploadFile(file);
+            $("#uploadPicture").uploadFile(fileWithPicture);
         });
 
         step("Заполнить поле Current Address (Karnal Bus Stand)", () -> {
-            $("#currentAddress").setValue("Karnal Bus Stand");
+            $("#currentAddress").setValue(currentAddress);
         });
 
         step("Заполнить поле State(Haryana)", () -> {
@@ -98,13 +107,13 @@ public class AutomationPracticeFormFillTests {
             }
             //#state > div > div.css-1wy0on6 > div > svg
             $("#state").click();
-            $(byText("Haryana")).click();
+            $(byText(state)).click();
         });
 
         step("Заполнить поле City (Karnal)", () -> {
             //#city > div > div.css-1wy0on6 > div > svg
             $("#city").click();
-            $(byText("Karnal")).click();
+            $(byText(city)).click();
         });
 
         step("Отправить форму (Submit)", () -> {
@@ -117,16 +126,16 @@ public class AutomationPracticeFormFillTests {
             $(".modal-header").shouldHave(text("Thanks for submitting the form"));
             //body > div.fade.modal.show > div > div > div.modal-body > div > table > tbody
             $(".table").shouldHave(
-                    text("Anton Gorodetskiy"),
-                    text("Anton.Gorodetskiy@mail.com"),
-                    text("Male"),
-                    text("9296112233"),
-                    text("19 August,1982"),
-                    text("Social Studies, Accounting"),
-                    text("Sports, Music"),
-                    text("AntonG.jpg"),
-                    text("Karnal Bus Stand"),
-                    text("Haryana Karnal"));
+                    text(firstName +" "+ lastName),
+                    text(userEmail),
+                    text(gender),
+                    text(userNumber),
+                    text(dateOfBirthDay + " "+ dateOfBirthMonth +"," + dateOfBirthYear),
+                    text(subjectsInputFirst + ", " + subjectsInputSecond),
+                    text(hobbiesFirst + ", " + hobbiesSecond),
+                    text(fileWithPictureName),
+                    text(currentAddress),
+                    text(state + " " + city));
         });
         step("Закрыть форму (Close)", () -> {
             // #closeLargeModal
