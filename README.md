@@ -10,12 +10,14 @@ See details:
 cloud/autotests/tests/
 AutomationPracticeFormFillTestsWithPOAndVars.java
 AutomationPracticeFormFillTestsWithPOAndTestData.java
+AutomationPracticeFormFillTestsWithPOAndRandomVars.java
+AutomationPracticeFormFillTestsWithPOAndTestDataFaker.java
 ```
 ## UI Tests (with PageObject)
 AutomationPracticeFormFillTestsWithPOAndVars -- variables, PageObjects and components
 AutomationPracticeFormFillTestsWithPOAndTestData -- move TestData to standalone class
 AutomationPracticeFormFillTestsWithPOAndRandomVars -- use RandomUtils for some vars
---use JavaFaker for some TestData
+AutomationPracticeFormFillTestsWithPOAndTestDataFaker -- use java-faker for some vars
 
 
 
